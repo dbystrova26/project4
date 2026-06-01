@@ -1,165 +1,166 @@
-# ContractOS — LangSmith Monitoring Demo
-## SilverTrust Project 4 | Daria Bystrova & Julian Grandaos
+# SilverTrust — Project 4
+## AI Consulting Engagement: Oracle Game Studio
 
-This folder contains the LangSmith observability setup for ContractOS — the AI-powered contract and payroll intelligence system built for Oracle Game Studio.
-
-Running this demo populates the LangSmith dashboard with real traces from all five ContractOS agents, providing a live audit trail that demonstrates EU AI Act compliance and gives Oracle's leadership visibility into every AI decision.
-
-🔗 **Live LangSmith project:** https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
+**Team:** Daria Bystrova & Julian Granados
+**Industry:** Financial Services (Payroll & Contract Intelligence)
+**Client:** Oracle Game Studio (Tech industry — assigned by paired team)
+**Date:** Week 7
 
 ---
 
-## What This Does
+## The Engagement in One Sentence
 
-Runs five AI agents against realistic Oracle Game Studio sample data and traces every call in LangSmith:
+Oracle is a funded indie game studio with 800–900 people across five countries, burning cash faster than it earns — we designed ContractOS, an AI-powered contract and payroll intelligence layer that reads every contract, detects duplicate payments, validates invoices, and gives leadership a live view of where their money is going.
 
-| Agent | What it traces |
+---
+
+## Repository Structure
+
+### Day 1 — Scenario Design & Discovery
+
+| # | Deliverable | File | Status |
+|---|---|---|---|
+| 1 | Industry + rationale + scenario designed for paired team (PulseWork) | [`01_scenario_design.md`](./01_scenario_design.md) | ✅ |
+| 3 | Discovery findings — interview notes, indirect questions, pain-point table, problem statement, solution concept | [`03_discovery_findings.md`](./03_discovery_findings.md) | ✅ |
+
+### Day 2 — Compliant Design, Monitoring & Peer Approval
+
+| # | Deliverable | File | Status |
+|---|---|---|---|
+| 4+5+6 | Solution design + compliance package + LangSmith monitoring | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) | ✅ |
+| 7 | Peer approval record — pitch, review board decision, change requests | [`07_peer_approval_record.md`](./07_peer_approval_record.md) | ⬜ |
+
+### Day 3 — Revised Proposal & Final Delivery
+
+| # | Deliverable | File | Status |
+|---|---|---|---|
+| 8 | Revised solution & final proposal | [`08_revised_proposal.md`](./08_revised_proposal.md) | ⬜ |
+| 9 | Change log — request → action → why | [`09_change_log.md`](./09_change_log.md) | ⬜ |
+
+---
+
+## The Client
+
+**Company:** Oracle Game Studio
+**CEO/CTO:** Eugen (co-founder)
+**CFO:** Thibaud
+**Size:** ~900 people
+**Locations:** Russia, India, Pakistan, Bangladesh, Philippines
+**Business model:** B2C indie games, one-time purchase via Steam — no subscriptions, no recurring revenue
+**Financial status:** Funded, at break even — high burn rate, needs to cut costs to return to profitability
+
+---
+
+## The Problem
+
+> Oracle has no visibility over who is engaged, on what terms, and at what cost across 900 people in five jurisdictions. Contracts are unread, invoices go unchecked, subcontractors have been lost track of, and internal work is being duplicated externally. The only lever available is cost — AI cannot fix the revenue side of a one-time purchase model.
+
+---
+
+## The Solution — ContractOS
+
+An AI-powered contract and payroll intelligence layer with five capabilities delivered by five dedicated AI agents, orchestrated by LangGraph:
+
+| Capability | AI Agent | What it does | Pain point solved |
+|---|---|---|---|
+| Contract Intelligence | Agent 1 — Contract Intelligence Agent | Reads all contracts across formats and languages, extracts key terms, flags IP risk | Lost contractor visibility, no single contract view |
+| Invoice Validation | Agent 2 — Invoice Validation Agent | Validates every invoice against contract terms before payment — flags mismatches | Wrong invoicing, payments not matching contracts |
+| Overlap Detection | Agent 3 — Overlap Detection Agent | Compares contractor scope against internal roles using semantic similarity — flags duplicate spend | Paying twice for same work |
+| Compliance Flagging | Agent 4 — Compliance Flagging Agent | Red/Amber/Green status per contract across five jurisdictions — misclassification, GDPR, IP | Compliance unknown, misclassification risk |
+| Cost Categorisation | Agent 5 — Cost Categorisation Agent | Categorises all spend by country, contract type, team, intermediary — live burn view | No cost visibility, burn exceeding revenue |
+
+> ⚠️ **Critical design constraint:** The AI flags and surfaces — a human approves before any payment is sent or any contractor is reclassified.
+
+---
+
+## Compliance Summary
+
+| Area | Classification | Key obligation |
+|---|---|---|
+| EU AI Act | Minimal risk (extraction, dashboard) / Limited risk (misclassification flagging) | Human-in-the-loop mandatory before any employment-affecting action |
+| GDPR — contracts | Lawful basis: contract performance (Art. 6(1)(b)) + legal obligation (Art. 6(1)(c)) | DPA + SCCs required for LLM provider; EU-based infrastructure only |
+| GDPR — LLM processing | Legitimate interest (Art. 6(1)(f)) | LIA must be documented before go-live |
+| Third countries | India (DPDP Act), Philippines (DPA 2012), Russia (sanctions + data localisation) | Data stays EU-side; local counsel required per jurisdiction |
+| German BetrVG | Works council consultation required before go-live | SilverTrust provides technical documentation |
+| NL DBA Act (2025) | Contractor misclassification flags | Human + legal review before any reclassification |
+
+---
+
+## LangSmith Monitoring
+
+**Project name:** `contractos-oracle-prod`
+🔗 **Live link:** https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
+**Agents traced:** `contract-intelligence-agent`, `invoice-validation-agent`, `overlap-detection-agent`, `compliance-flagging-agent`, `cost-categorisation-agent`
+
+**What we monitor:**
+- Extraction confidence score per field (alert if < 0.80 on critical fields)
+- Human override rate (alert if > 20% in 7-day window)
+- Latency per agent call (alert if p95 > 30 seconds)
+- Failed extractions (zero tolerance alert)
+- Compliance flag distribution (alert if Red > 10% of new contracts)
+- PII redaction verification (weekly audit, zero tolerance)
+
+**Client reassurance:**
+> *"Every time the AI reads a contract, we log exactly what it extracted and how confident it was. If it flags a risk, a human reviews it before anything happens. You have a complete audit trail at all times."*
+
+### Screenshots
+
+| # | File | Agent | Key finding |
+|---|---|---|---|
+| 1 | `screenshot_01_overview.png` | All agents | 6 runs, all 5 agents traced, latency and cost visible |
+| 2 | `screenshot_02_contract_intelligence.png` | Agent 1 | Jana Novak extracted — GDPR clause absent flagged |
+| 3 | `screenshot_03_compliance_red.png` | Agent 4 | Arjun Sharma RED — misclassification risk, NL/India |
+| 4 | `screenshot_04_overlap_detection.png` | Agent 3 | Jana vs internal engineer — 95/100, €8,500/month duplicate |
+| 5 | `screenshot_05_invoice_mismatch.png` | Agent 2 | Raj Consulting — USD 1,100 overbilled, verbal agreement claimed |
+| 6 | `screenshot_06_cost_categorisation.png` | Agent 5 | TechStaff Philippines — EUR 8,200/month via intermediary |
+
+**Screenshot 1 — Project overview**
+![LangSmith project overview](./screenshot_01_overview.png)
+
+**Screenshot 2 — Contract Intelligence Agent**
+![Contract Intelligence trace](./screenshot_02_contract_intelligence.png)
+
+**Screenshot 3 — Compliance Flagging Agent: RED**
+![Compliance RED flag](./screenshot_03_compliance_red.png)
+
+**Screenshot 4 — Overlap Detection Agent: 95/100**
+![Overlap detection](./screenshot_04_overlap_detection.png)
+
+**Screenshot 5 — Invoice Validation Agent: mismatch flagged**
+![Invoice mismatch](./screenshot_05_invoice_mismatch.png)
+
+**Screenshot 6 — Cost Categorisation Agent**
+![Cost categorisation](./screenshot_06_cost_categorisation.png)
+
+---
+
+## Submission Checklist
+
+- [x] Monday: industry chosen; scenario designed and sent to teacher; discovery findings captured
+- [x] Tuesday: solution design, compliance package, LangSmith monitoring documented
+- [ ] Tuesday: peer-approval record (after afternoon pitch)
+- [ ] Wednesday: revised proposal, final deck, change log, repository delivered
+- [x] LangSmith project live — link: https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
+- [ ] Repository accessible to instructors; all links working
+- [ ] All team members can explain the whole solution
+
+---
+
+## Quick Navigation
+
+| What you need | Where to find it |
 |---|---|
-| `contract-intelligence-agent` | Extracts structured fields from contractor agreements |
-| `invoice-validation-agent` | Validates invoices against contract terms, flags mismatches |
-| `overlap-detection-agent` | Detects where contractor scope duplicates internal roles |
-| `compliance-flagging-agent` | Checks contracts against jurisdiction rules, outputs Red/Amber/Green |
-| `cost-categorisation-agent` | Categorises payments by country, type, team, intermediary |
+| Who is the client and what is the problem | This README — sections above |
+| How we discovered the problem | [`03_discovery_findings.md`](./03_discovery_findings.md) |
+| What ContractOS does and how it works | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Deliverable 4 |
+| EU AI Act classification and justification | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.1 |
+| GDPR data map and lawful basis | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.2 |
+| Compliance memo (plain English) | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.5 |
+| LangSmith monitoring setup | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Deliverable 6 |
+| Scenario designed for paired team | [`01_scenario_design.md`](./01_scenario_design.md) |
+| Peer review record | [`07_peer_approval_record.md`](./07_peer_approval_record.md) *(after Tuesday pitch)* |
+| Change log | [`09_change_log.md`](./09_change_log.md) *(Wednesday)* |
 
 ---
 
-## Setup — Step by Step
-
-### 1. Create a LangSmith account
-Go to [smith.langchain.com](https://smith.langchain.com) and sign up (free tier is fine).
-
-### 2. Create the project
-- Click **New Project**
-- Name it exactly: `contractos-oracle-prod`
-- Click Create
-
-### 3. Get your LangSmith API key
-- Go to **Settings → API Keys**
-- Click **Create API Key**
-- Copy it — you only see it once
-
-### 4. Get your Anthropic API key
-- Go to [console.anthropic.com](https://console.anthropic.com) → API Keys
-- Create a new key and copy it
-
-### 5. Set up your environment
-
-```bash
-# Copy the example env file
-cp .env.example .env
-# Then open .env and fill in your real keys
-```
-
-Your `.env` must contain all of these:
-
-```bash
-# Anthropic
-ANTHROPIC_API_KEY=sk-ant-your-key-here
-
-# LangSmith — new variable names
-LANGSMITH_TRACING=true
-LANGSMITH_ENDPOINT=https://eu.api.smith.langchain.com
-LANGSMITH_API_KEY=lsv2_pt_your-key-here
-LANGSMITH_PROJECT=contractos-oracle-prod
-
-# LangSmith — old variable names (kept for compatibility)
-LANGCHAIN_TRACING_V2=true
-LANGCHAIN_API_KEY=lsv2_pt_your-key-here
-LANGCHAIN_PROJECT=contractos-oracle-prod
-```
-
-> ⚠️ Use the EU endpoint if your LangSmith account is on `eu.smith.langchain.com`. Same key under both `LANGSMITH_API_KEY` and `LANGCHAIN_API_KEY` — different packages look for different names.
-
-### 6. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 7. Run the demo
-
-```bash
-python contractos_demo.py
-```
-
----
-
-## What You Should See
-
-In your terminal — six agent runs printing JSON output:
-- Agent 1: Jana Novak contract extracted cleanly
-- Agent 2a: Jana invoice validated (matches contract rate)
-- Agent 2b: Raj Consulting invoice flagged (mismatch — rate discrepancy + verbal agreement claim)
-- Agent 3: Overlap detected between Jana and internal backend engineer — score 95/100, €8,500/month duplicate cost
-- Agent 4: Arjun Sharma flagged **RED** — misclassification risk (works exclusively for Oracle, 40hrs/week, Oracle equipment, daily standups)
-- Agent 5: TechStaff Philippines payment categorised via intermediary
-
-In LangSmith:
-- Project `contractos-oracle-prod` shows all six runs
-- Each run shows input prompt, output JSON, latency, model used, and cost
-- Click any run to see the full trace
-
----
-
-## Screenshots
-
-Screenshots are in the `screenshots/` subfolder.
-
-| File | What it shows |
-|---|---|
-| `screenshot_01_overview.png` | Project dashboard — all 6 runs with latency and cost |
-| `screenshot_02_contract_intelligence.png` | `contract-intelligence-agent` trace — Jana Novak extracted to JSON |
-| `screenshot_03_compliance_red.png` | `compliance-flagging-agent` trace — Arjun Sharma flagged RED |
-| `screenshot_04_overlap_detection.png` | `overlap-detection-agent` trace — 95/100 overlap, €8,500/month duplicate cost |
-
-**Screenshot 1 — Project overview: all 6 runs**
-![Project overview](./screenshots/screenshot_01_overview.png)
-
-**Screenshot 2 — Contract Intelligence Agent: Jana Novak extracted**
-![Contract Intelligence trace](./screenshots/screenshot_02_contract_intelligence.png)
-
-**Screenshot 3 — Compliance Flagging Agent: Arjun Sharma RED**
-![Compliance RED flag](./screenshots/screenshot_03_compliance_red.png)
-
-**Screenshot 4 — Overlap Detection Agent: 95/100 overlap score**
-![Overlap detection](./screenshots/screenshot_04_overlap_detection.png)
-
----
-
-## Files in This Folder
-
-```
-langsmith/
-├── README.md               ← this file
-├── contractos_demo.py      ← runs all five agents
-├── requirements.txt        ← Python dependencies
-├── .env.example            ← copy to .env and fill in keys
-├── .gitignore              ← prevents .env being committed
-└── screenshots/
-    ├── screenshot_01_overview.png
-    ├── screenshot_02_contract_intelligence.png
-    ├── screenshot_03_compliance_red.png
-    └── screenshot_04_overlap_detection.png
-```
-
----
-
-## Why This Matters — The Client Pitch
-
-When Oracle's leadership asks *"can you actually see what the AI does?"*:
-
-> *"Yes. Here is the LangSmith dashboard. Every time ContractOS read a contract, we logged exactly what it extracted and how confident it was. Here is Agent 4 flagging Arjun's contract RED — it detected misclassification risk because he works exclusively for Oracle, 40 hours a week, using Oracle's equipment. That flag went to your legal team for review before any action was taken. Nothing happened automatically. And if a regulator asks what the AI did with that contract — we can show them the complete chain in under five minutes."*
-
----
-
-## Connection to EU AI Act
-
-The LangSmith traces are technical proof that:
-- Human oversight is **actually enforced** — every flag logged, every human decision recorded
-- The system is **auditable** — complete chain from input to approved action
-- ContractOS stays at **limited/minimal risk** — no automated decisions visible in traces
-
----
-
-*SilverTrust Project 4 — ContractOS LangSmith Monitoring*
-*Daria Bystrova & Julian Grandaos*
+*SilverTrust Project 4 — Daria Bystrova & Julian Granados — Week 7*
