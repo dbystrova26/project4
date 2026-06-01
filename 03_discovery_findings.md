@@ -2,7 +2,7 @@
 ## Discovery Findings — Oracle Game Studio
 **Interview Notes | Indirect Questions Used | Pain-Point Table | Problem Statement | Solution Concept**
 
-*Daria Bystrova & Julian Grandaos*
+*Daria Bystrova & Julian Granados*
 
 ---
 
@@ -59,34 +59,34 @@
 
 | Discovered pain point | Evidence from interview | How it affects the solution |
 |---|---|---|
-| **No visibility over tool stack and costs** | "I cannot really tell you what kind of tools we're using... people just want a tool and then we give it to them" | Solution must aggregate all cost data into one view — CEO dashboard requiring no finance expertise |
-| **Internal and external work overlapping** | "We are externalising tasks which we are already doing internally" | Overlap detection: AI compares contractor scope against internal roles and flags duplicates |
-| **Compliance unknown and unmanaged** | "Are we actually compliant by doing what we are doing?" — asked unprompted | Compliance flagging per contract and jurisdiction must be built in as a core feature, not an add-on |
+| **No visibility over tool stack and costs** | "I cannot really tell you what kind of tools we're using... people just want a tool and then we give it to them" | Solution must aggregate all cost data into one view — CEO dashboard requiring no finance expertise → **Agent 5: Cost Categorisation** |
+| **Internal and external work overlapping** | "We are externalising tasks which we are already doing internally" | AI compares contractor scope against internal roles and flags duplicates → **Agent 3: Overlap Detection** |
+| **Compliance unknown and unmanaged** | "Are we actually compliant by doing what we are doing?" — asked unprompted | Compliance flagging per contract and jurisdiction must be built in as a core feature → **Agent 4: Compliance Flagging** |
 | **Existing tools have failed or disappointed** | "This thing needs to kind of elevate what we're doing... not a new contract management system" | Product must be framed as AI intelligence layer, not software. Demo must show reasoning and automation, not forms |
 
 ### Persona 2 — Thibaud, CFO
 
 | Discovered pain point | Evidence from interview | How it affects the solution |
 |---|---|---|
-| **Cannot return to break even — burn exceeding revenue** | "To go back to break even... I'm pretty sure we could reduce some of our costs" | Solution must produce measurable cost reduction as primary outcome. ROI story is essential for Thibaud's sign-off |
-| **Lost track of subcontractors** | "We kind of lost track of all the subcontractors we have and we're working with" | Live contractor register is a core feature: who is active, what they are paid, when last invoiced |
-| **Wrong invoicing — amounts not matching contracts** | "Wrong invoicing, pay cycles" — stack is "absolutely a mess" | Invoice validation against contract terms must be automated — flag before payment, not after |
-| **Multi-country payroll bottleneck** | "Solutions only work as good as the availability is in certain countries... we have to include accounting firms or payroll firms" | Payment tracking layer: confirm sent, confirm arrived, flag failures. Works alongside existing rails such as Wise |
-| **Possibly paying twice for the same work** | "See if we are maybe paying twice for the same" | Duplicate detection: cross-reference contractor invoices against internal payroll. Highest quick-win for cost reduction |
+| **Cannot return to break even — burn exceeding revenue** | "To go back to break even... I'm pretty sure we could reduce some of our costs" | Solution must produce measurable cost reduction as primary outcome. ROI story essential → **Agent 5: Cost Categorisation** |
+| **Lost track of subcontractors** | "We kind of lost track of all the subcontractors we have and we're working with" | Live contractor register is a core feature: who is active, what they are paid, when last invoiced → **Agent 1: Contract Intelligence** |
+| **Wrong invoicing — amounts not matching contracts** | "Wrong invoicing, pay cycles" — stack is "absolutely a mess" | Invoice validation against contract terms must be automated — flag before payment → **Agent 2: Invoice Validation** |
+| **Multi-country payroll bottleneck** | "Solutions only work as good as the availability is in certain countries... we have to include accounting firms or payroll firms" | Payment tracking: confirm sent, confirm arrived, flag failures. Works alongside Wise → **Agent 2: Invoice Validation** |
+| **Possibly paying twice for the same work** | "See if we are maybe paying twice for the same" | Cross-reference contractor invoices against internal payroll. Highest quick-win for cost reduction → **Agent 3: Overlap Detection** |
 
-### Combined Summary — Persona → Pain Point → Solution Feature
+### Combined Summary — Persona → Pain Point → Agent → Capability
 
-| Persona | Discovered pain point | Solution feature | Priority |
-|---|---|---|---|
-| Eugen | No tool/cost visibility | CEO cost dashboard | **High** |
-| Eugen | Internal vs external overlap | Overlap detection | **High** |
-| Eugen | Compliance unknown | Jurisdiction compliance flags | **High** |
-| Eugen | Tools have failed before | AI-first UX, not a form | Medium |
-| Thibaud | Burn exceeding revenue | Cost reduction dashboard + ROI | **Critical** |
-| Thibaud | Lost track of contractors | Live contractor register | **Critical** |
-| Thibaud | Wrong invoicing | Invoice validation vs contract | **Critical** |
-| Thibaud | Multi-country payroll bottleneck | Payment tracking layer | **High** |
-| Thibaud | Paying twice for same work | Duplicate payment detection | **Critical** |
+| Persona | Discovered pain point | Agent | Capability | Priority |
+|---|---|---|---|---|
+| Eugen | No tool/cost visibility | Agent 5 | Cost Categorisation | **High** |
+| Eugen | Internal vs external overlap | Agent 3 | Overlap Detection | **High** |
+| Eugen | Compliance unknown | Agent 4 | Compliance Flagging | **High** |
+| Eugen | Tools have failed before | — | AI-first UX, not a form | Medium |
+| Thibaud | Burn exceeding revenue | Agent 5 | Cost Categorisation | **Critical** |
+| Thibaud | Lost track of contractors | Agent 1 | Contract Intelligence | **Critical** |
+| Thibaud | Wrong invoicing | Agent 2 | Invoice Validation | **Critical** |
+| Thibaud | Multi-country payroll bottleneck | Agent 2 | Invoice Validation | **High** |
+| Thibaud | Paying twice for same work | Agent 3 | Overlap Detection | **Critical** |
 
 ---
 
@@ -102,24 +102,27 @@
 
 > *"A single AI-powered interface that reads every contract, finds the overlaps, catches the errors, tracks the payments, and shows exactly where the money is going — so Oracle gets back to black numbers."*
 
-### Four Capabilities
+### Five Capabilities
 
-| Capability | What the AI does | Pain points solved |
+| Capability | Agent that powers it | What the AI does | Pain points solved |
+|---|---|---|---|
+| **1. Contract Intelligence** | Agent 1 — Contract Intelligence Agent | Reads all contracts across formats and languages. Extracts: person, role, rate, currency, contract type, jurisdiction, notice period, IP clauses, renewal date, GDPR clause presence. | Lost contractor visibility, no single contract view |
+| **2. Invoice Validation** | Agent 2 — Invoice Validation Agent | Validates every incoming invoice against contract terms before payment. Flags amount mismatches, currency errors, and scope discrepancies. | Wrong invoicing, payments not matching contracts |
+| **3. Overlap Detection** | Agent 3 — Overlap Detection Agent | Compares contractor scope descriptions against internal job roles using semantic similarity. Flags where the same work is being paid twice inside and outside the company. | Paying twice for same work, internal vs external overlap |
+| **4. Compliance Flagging** | Agent 4 — Compliance Flagging Agent | Checks each contract against jurisdiction-specific rule sets. Outputs Red / Amber / Green status with specific flags for misclassification risk, missing GDPR clauses, and ambiguous IP assignment. | Compliance unknown, misclassification risk across five countries |
+| **5. Cost Categorisation** | Agent 5 — Cost Categorisation Agent | Categorises all workforce spend by country, contract type, team, and intermediary. Real-time burn visibility in one view for Thibaud and Eugen. | No cost visibility, burn exceeding revenue, intermediary opacity |
+
+### Five AI Agents — One Capability Each
+
+> Five dedicated AI agents, each with a single responsibility, all orchestrated by LangGraph. Every agent produces structured outputs and confidence scores — none executes final decisions.
+
+| Agent | Capability | Technical description |
 |---|---|---|
-| **1. Contract Intelligence** | Reads all contracts across formats and languages, extracts key terms (rate, jurisdiction, notice period, IP clauses), flags misclassification risk and missing compliance clauses | Lost contractor visibility, compliance unknown, no single contract view |
-| **2. Overlap Detection** | Compares contractor scope descriptions against internal job roles — flags where same work is being paid twice inside and outside the company | Paying twice for same work, internal vs external overlap |
-| **3. Cost Dashboard** | Categorises all workforce spend by country, contract type, team, and intermediary — real-time burn visibility in one view | No cost visibility, no single interface, burn exceeding revenue |
-| **4. Payment Tracking** | Validates incoming invoices against contract terms, flags mismatches, confirms payment sent and arrived, works alongside existing rails such as Wise | Wrong invoicing, multi-country payroll bottleneck |
-
-### How the Four Capabilities Map to Three AI Agents
-
-| AI Agent | Capabilities it powers | What it does |
-|---|---|---|
-| **Agent 1 — Contract Reader** | Contract Intelligence | Ingests every contract in any format or language. Extracts structured data: person, role, rate, currency, jurisdiction, notice period, IP clauses, renewal date. Outputs the live contract register. |
-| **Agent 2 — Cost Analyst** | Overlap Detection, Cost Dashboard, Payment Tracking | Takes extracted contract data plus invoice and payroll data. Categorises spend, flags invoice mismatches, inactive contractors, and duplicate payments where contractor scope matches internal roles. |
-| **Agent 3 — Compliance Checker** | Embedded across all four capabilities | Reads each contract against jurisdiction-specific rule sets. Flags missing GDPR clauses, ambiguous IP assignment, misclassification risk, and missing mandatory terms. Outputs Red / Amber / Green compliance status per person. Does not give legal advice — flags for human review only. |
-
-> *ContractOS has four capabilities delivered through three AI agents — Agent 1 powers Contract Intelligence, Agent 2 powers Overlap Detection, Cost Dashboard, and Payment Tracking, and Agent 3 powers the Compliance layer embedded across all four.*
+| **Agent 1 — Contract Intelligence Agent** | Contract Intelligence | LLM ingests contract documents. Structured extraction prompt returns JSON: name, role, rate, currency, jurisdiction, notice period, IP clause status, GDPR clause status, working arrangement description. Output stored in Contract Register DB. |
+| **Agent 2 — Invoice Validation Agent** | Invoice Validation | LLM reads incoming invoice text and compares it against extracted contract terms. Flags discrepancies in amount, currency, scope, and billing period. Output: validated / flagged + specific mismatch detail. |
+| **Agent 3 — Overlap Detection Agent** | Overlap Detection | LLM compares contractor working arrangement descriptions against internal job role descriptions using semantic similarity. Flags pairs where scope overlap exceeds threshold. Output: overlap alert with contractor name, internal role, estimated duplicate cost. |
+| **Agent 4 — Compliance Flagging Agent** | Compliance Flagging | LLM checks extracted contract data against jurisdiction-specific rule sets: GDPR clause presence, IP assignment clarity, misclassification indicators (NL DBA, German Scheinselbstständigkeit, French rules), notice period minimums. Output: Red / Amber / Green + specific flags per contract. |
+| **Agent 5 — Cost Categorisation Agent** | Cost Categorisation | LLM normalises ambiguous spend descriptions and categorises all payments by country, contract type, team, and intermediary. Plain software aggregates and renders the dashboard. Output: categorised cost register + burn trend. |
 
 ### Where AI Is Genuinely Needed vs Plain Software
 
@@ -130,9 +133,10 @@
 | Detecting overlap between contractor scope and internal roles across free-text descriptions | Generating the cost dashboard and charts |
 | Flagging missing jurisdiction-specific clauses from contract text | Access control — who can see salary data |
 | Compliance checking across five jurisdictions simultaneously | Payment processing — handled by existing rails such as Wise |
+| Invoice anomaly detection — normalising messy multilingual invoice formats | Audit trail and notification alerts |
 
 > ⚠️ **Critical design constraint:** The AI flags and surfaces — a human approves before any payment is sent or any contractor is reclassified. This keeps the system at limited/minimal risk under the EU AI Act and satisfies GDPR Article 22.
 
 ---
 
-*Daria Bystrova & Julian Grandaos — SilverTrust Project 4 — Deliverable #3: Discovery Findings*
+*Daria Bystrova & Julian Granados — SilverTrust Project 4 — Deliverable #3: Discovery Findings*
