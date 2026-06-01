@@ -102,27 +102,17 @@
 
 > *"A single AI-powered interface that reads every contract, finds the overlaps, catches the errors, tracks the payments, and shows exactly where the money is going — so Oracle gets back to black numbers."*
 
-### Five Capabilities
+### Five Capabilities & Five AI Agents
 
-| Capability | Agent that powers it | What the AI does | Pain points solved |
-|---|---|---|---|
-| **1. Contract Intelligence** | Agent 1 — Contract Intelligence Agent | Reads all contracts across formats and languages. Extracts: person, role, rate, currency, contract type, jurisdiction, notice period, IP clauses, renewal date, GDPR clause presence. | Lost contractor visibility, no single contract view |
-| **2. Invoice Validation** | Agent 2 — Invoice Validation Agent | Validates every incoming invoice against contract terms before payment. Flags amount mismatches, currency errors, and scope discrepancies. | Wrong invoicing, payments not matching contracts |
-| **3. Overlap Detection** | Agent 3 — Overlap Detection Agent | Compares contractor scope descriptions against internal job roles using semantic similarity. Flags where the same work is being paid twice inside and outside the company. | Paying twice for same work, internal vs external overlap |
-| **4. Compliance Flagging** | Agent 4 — Compliance Flagging Agent | Checks each contract against jurisdiction-specific rule sets. Outputs Red / Amber / Green status with specific flags for misclassification risk, missing GDPR clauses, and ambiguous IP assignment. | Compliance unknown, misclassification risk across five countries |
-| **5. Cost Categorisation** | Agent 5 — Cost Categorisation Agent | Categorises all workforce spend by country, contract type, team, and intermediary. Real-time burn visibility in one view for Thibaud and Eugen. | No cost visibility, burn exceeding revenue, intermediary opacity |
+> Five dedicated AI agents orchestrated by LangGraph — each owns exactly one capability. Every agent produces structured outputs and confidence scores — none executes final decisions.
 
-### Five AI Agents — One Capability Each
-
-> Five dedicated AI agents, each with a single responsibility, all orchestrated by LangGraph. Every agent produces structured outputs and confidence scores — none executes final decisions.
-
-| Agent | Capability | Technical description |
-|---|---|---|
-| **Agent 1 — Contract Intelligence Agent** | Contract Intelligence | LLM ingests contract documents. Structured extraction prompt returns JSON: name, role, rate, currency, jurisdiction, notice period, IP clause status, GDPR clause status, working arrangement description. Output stored in Contract Register DB. |
-| **Agent 2 — Invoice Validation Agent** | Invoice Validation | LLM reads incoming invoice text and compares it against extracted contract terms. Flags discrepancies in amount, currency, scope, and billing period. Output: validated / flagged + specific mismatch detail. |
-| **Agent 3 — Overlap Detection Agent** | Overlap Detection | LLM compares contractor working arrangement descriptions against internal job role descriptions using semantic similarity. Flags pairs where scope overlap exceeds threshold. Output: overlap alert with contractor name, internal role, estimated duplicate cost. |
-| **Agent 4 — Compliance Flagging Agent** | Compliance Flagging | LLM checks extracted contract data against jurisdiction-specific rule sets: GDPR clause presence, IP assignment clarity, misclassification indicators (NL DBA, German Scheinselbstständigkeit, French rules), notice period minimums. Output: Red / Amber / Green + specific flags per contract. |
-| **Agent 5 — Cost Categorisation Agent** | Cost Categorisation | LLM normalises ambiguous spend descriptions and categorises all payments by country, contract type, team, and intermediary. Plain software aggregates and renders the dashboard. Output: categorised cost register + burn trend. |
+| # | Capability | Agent | What the AI does | Technical output | Pain points solved |
+|---|---|---|---|---|---|
+| 1 | **Contract Intelligence** | Agent 1 — Contract Intelligence Agent | Reads all contracts across formats and languages. Extracts: person, role, rate, currency, contract type, jurisdiction, notice period, IP clauses, renewal date, GDPR clause presence. | JSON extracted fields stored in Contract Register DB | Lost contractor visibility, no single contract view |
+| 2 | **Invoice Validation** | Agent 2 — Invoice Validation Agent | Validates every incoming invoice against contract terms before payment. Flags amount mismatches, currency errors, and scope discrepancies. | validated / flagged + specific mismatch detail | Wrong invoicing, payments not matching contracts |
+| 3 | **Overlap Detection** | Agent 3 — Overlap Detection Agent | Compares contractor scope descriptions against internal job roles using semantic similarity. Flags where the same work is being paid twice. | Overlap alert with contractor name, internal role, estimated duplicate cost | Paying twice for same work, internal vs external overlap |
+| 4 | **Compliance Flagging** | Agent 4 — Compliance Flagging Agent | Checks each contract against jurisdiction-specific rule sets (NL DBA, German Scheinselbstständigkeit, French rules). Flags misclassification risk, missing GDPR clauses, ambiguous IP assignment. | Red / Amber / Green status + specific flags per contract | Compliance unknown, misclassification risk across five countries |
+| 5 | **Cost Categorisation** | Agent 5 — Cost Categorisation Agent | Normalises ambiguous spend descriptions and categorises all payments by country, contract type, team, and intermediary. Plain software renders the dashboard. | Categorised cost register + burn trend | No cost visibility, burn exceeding revenue, intermediary opacity |
 
 ### Where AI Is Genuinely Needed vs Plain Software
 
