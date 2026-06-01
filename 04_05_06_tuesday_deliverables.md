@@ -45,7 +45,108 @@ ContractOS is a single AI-powered interface that reads every contractor and empl
 
 ---
 
-### 4.4 Where AI Is Genuinely Needed vs Plain Software
+### 4.4 Technical Infrastructure Architecture
+
+ContractOS is built as an EU-hosted, privacy-first AI intelligence layer using **n8n**, **LangChain**, **LangGraph**, and **LangSmith**.
+
+| Layer | Technology | Role |
+|---|---|---|
+| **Workflow & integration** | n8n | Connects to all data sources: contract folders, email inboxes, invoice uploads, payroll exports, HR records, payment confirmations |
+| **Document processing** | LangChain | Document loading, text extraction, chunking, retrieval, and structured information extraction from contracts, invoices, role descriptions, and payment records |
+| **Agent orchestration** | LangGraph | Coordinates the five AI agents, manages state, routes structured outputs to human review |
+| **Observability** | LangSmith | Monitors AI workflows, stores traces, supports evaluation, provides audit trail for errors, model behaviour, prompt versions, and decision paths |
+| **Hosting** | EU-controlled environment | Role-based access, encrypted storage, minimal data retention, audit logs, human approval gates |
+
+#### Five AI Agents (LangGraph orchestrated)
+
+| Agent | What it does |
+|---|---|
+| **Contract Intelligence Agent** | Extracts structured data from contracts across formats and languages |
+| **Invoice Validation Agent** | Validates invoices against contract terms, flags mismatches before payment |
+| **Overlap Detection Agent** | Detects where contractor scope duplicates internal employee roles |
+| **Compliance Flagging Agent** | Checks contracts against jurisdiction-specific rule sets, outputs Red / Amber / Green |
+| **Cost Categorisation Agent** | Categorises spend by country, type, team, and intermediary |
+
+> Each agent produces structured outputs, confidence scores, and explanations — but does not execute final decisions.
+
+#### Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[Data Sources] --> A1[Contracts]
+    A --> A2[Invoices]
+    A --> A3[Payroll / HR Exports]
+    A --> A4[Payment Records]
+    A --> A5[Internal Role Descriptions]
+
+    A1 --> B[n8n Workflow Layer]
+    A2 --> B
+    A3 --> B
+    A4 --> B
+    A5 --> B
+
+    B --> C[Document Intake + Normalisation]
+    C --> D[LangChain Processing Layer]
+    D --> D1[Load Documents]
+    D --> D2[Extract Text]
+    D --> D3[Chunk + Structure Content]
+    D --> D4[Retrieve Relevant Context]
+    D --> E[LangGraph AI Orchestration]
+
+    E --> F1[Contract Intelligence Agent]
+    E --> F2[Invoice Validation Agent]
+    E --> F3[Overlap Detection Agent]
+    E --> F4[Compliance Flagging Agent]
+    E --> F5[Cost Categorisation Agent]
+
+    F1 --> G[Structured Findings]
+    F2 --> G
+    F3 --> G
+    F4 --> G
+    F5 --> G
+
+    G --> H[Human Review Layer]
+    H --> H1[Finance Team]
+    H --> H2[Legal / Compliance]
+    H --> H3[HR]
+    H --> H4[CEO / CTO]
+    H --> I[Approved Actions]
+
+    I --> I1[Approve / Reject Invoice]
+    I --> I2[Escalate Compliance Risk]
+    I --> I3[Investigate Duplicate Work]
+    I --> I4[Update Contractor Register]
+    I --> I5[Review Cost Dashboard]
+
+    E --> J[LangSmith Observability]
+    J --> J1[Prompt Traces]
+    J --> J2[Evaluation Logs]
+    J --> J3[Error Analysis]
+    J --> J4[Audit Trail]
+
+    G --> K[CEO / CFO Dashboards]
+    K --> K1[Spend by Country]
+    K --> K2[Spend by Contractor]
+    K --> K3[Duplicate Payment Risk]
+    K --> K4[Invoice Mismatch Risk]
+    K --> K5[Compliance Risk Overview]
+```
+
+#### Human Review Layer — Non-Negotiable
+
+All agent outputs route to a human approval queue before any action is taken.
+
+| Reviewer | Actions they approve |
+|---|---|
+| **Finance Team** | Approve / reject invoice payments |
+| **Legal / Compliance** | Escalate compliance risks, review misclassification flags |
+| **HR** | Investigate duplicate work, update contractor register |
+| **CEO / CTO (Eugen)** | Review cost dashboard, approve strategic decisions |
+| **CFO (Thibaud)** | Approve payment holds, review cost reduction flags |
+
+---
+
+### 4.5 Where AI Is Genuinely Needed vs Plain Software
 
 | AI / LLM reasoning genuinely needed | Plain software sufficient |
 |---|---|
@@ -57,7 +158,7 @@ ContractOS is a single AI-powered interface that reads every contractor and empl
 
 ---
 
-### 4.5 Data the System Touches
+### 4.6 Data the System Touches
 
 **Inputs:**
 
@@ -176,7 +277,7 @@ Third, if you have German staff, your works council needs to be consulted before
 ### 6.1 LangSmith Project Setup
 
 - **Project name:** `contractos-oracle-prod`
-- All three agents traced: `contract-reader`, `cost-analyst`, `compliance-checker`
+- All five agents traced: `contract-intelligence`, `invoice-validation`, `overlap-detection`, `compliance-flagging`, `cost-categorisation`
 - Every LLM call logged: input prompt, output, model used, latency, token count
 - PII redaction configured: names, rates, bank details stripped from traces before storage
 - EU region selected for trace storage
