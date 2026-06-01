@@ -1,7 +1,7 @@
 # SilverTrust — Project 4
 ## AI Consulting Engagement: Oracle Game Studio
 
-**Team:** Daria Bystrova & Julian Grandaos
+**Team:** Daria Bystrova & Julian Granados
 **Industry:** Financial Services (Payroll & Contract Intelligence)
 **Client:** Oracle Game Studio (Tech industry — assigned by paired team)
 **Date:** Week 7
