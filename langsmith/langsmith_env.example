@@ -1,0 +1,13 @@
+# ContractOS — LangSmith Demo Environment Variables
+# Copy this file to .env and fill in your keys
+# NEVER commit .env to GitHub — it is in .gitignore
+
+# ── LangSmith ──────────────────────────────────────────────────────────────
+# Get your key from: https://smith.langchain.com → Settings → API Keys
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_API_KEY=your_langsmith_api_key_here
+LANGCHAIN_PROJECT=contractos-oracle-prod
+
+# ── Anthropic ──────────────────────────────────────────────────────────────
+# Get your key from: https://console.anthropic.com → API Keys
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
