@@ -20,16 +20,14 @@ Oracle is a funded indie game studio with 800–900 people across five countries
 
 | # | Deliverable | File | Status |
 |---|---|---|---|
-| 1 | Industry + rationale + scenario designed for paired team (PulseWork) | [`01_scenario_design.docx`](./01_scenario_design.docx) | ✅ |
+| 1 | Industry + rationale + scenario designed for paired team (PulseWork) | [`01_02_scenario_design.md`](./01_02_scenario_design.md) | ✅ |
 | 3 | Discovery findings — interview notes, indirect questions, pain-point table, problem statement, solution concept | [`03_discovery_findings.md`](./03_discovery_findings.md) | ✅ |
-| 3 | Discovery findings (Word version) | [`03_discovery_findings_FINAL.docx`](./03_discovery_findings_FINAL.docx) | ✅ |
 
 ### Day 2 — Compliant Design, Monitoring & Peer Approval
 
 | # | Deliverable | File | Status |
 |---|---|---|---|
 | 4+5+6 | Solution design + compliance package + LangSmith monitoring | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) | ✅ |
-| 4+5+6 | Same — Word version | [`04_05_06_tuesday_deliverables.docx`](./04_05_06_tuesday_deliverables.docx) | ✅ |
 | 7 | Peer approval record — pitch, review board decision, change requests | [`07_peer_approval_record.md`](./07_peer_approval_record.md) | ⬜ |
 
 ### Day 3 — Revised Proposal & Final Delivery
@@ -117,22 +115,24 @@ An AI-powered contract and payroll intelligence layer with five capabilities del
 | 6 | `screenshot_06_cost_categorisation.png` | Agent 5 | TechStaff Philippines — EUR 8,200/month via intermediary |
 
 **Screenshot 1 — Project overview**
-![LangSmith project overview](./screenshot_01_overview.png)
+![LangSmith project overview](./langsmith/screenshots/screenshot_01_overview.png)
 
 **Screenshot 2 — Contract Intelligence Agent**
-![Contract Intelligence trace](./screenshot_02_contract_intelligence.png)
+![Contract Intelligence trace](./langsmith/screenshots/screenshot_02_contract_intelligence.png)
 
 **Screenshot 3 — Compliance Flagging Agent: RED**
-![Compliance RED flag](./screenshot_03_compliance_red.png)
+![Compliance RED flag](./langsmith/screenshots/screenshot_03_compliance_red.png)
 
 **Screenshot 4 — Overlap Detection Agent: 95/100**
-![Overlap detection](./screenshot_04_overlap_detection.png)
+![Overlap detection](./langsmith/screenshots/screenshot_04_overlap_detection.png)
 
 **Screenshot 5 — Invoice Validation Agent: mismatch flagged**
-![Invoice mismatch](./screenshot_05_invoice_mismatch.png)
+![Invoice mismatch](./langsmith/screenshots/screenshot_05_invoice_mismatch.png)
 
 **Screenshot 6 — Cost Categorisation Agent**
-![Cost categorisation](./screenshot_06_cost_categorisation.png)
+![Cost categorisation](./langsmith/screenshots/screenshot_06_cost_categorisation.png)
+
+---
 
 ## Submission Checklist
 
@@ -157,10 +157,10 @@ An AI-powered contract and payroll intelligence layer with five capabilities del
 | GDPR data map and lawful basis | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.2 |
 | Compliance memo (plain English) | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.5 |
 | LangSmith monitoring setup | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Deliverable 6 |
-| Scenario we designed for paired team | [`01_scenario_design.docx`](./01_scenario_design.docx) |
+| Scenario designed for paired team | [`01_02_scenario_design.md`](./01_02_scenario_design.md) |
 | Peer review record | [`07_peer_approval_record.md`](./07_peer_approval_record.md) *(after Tuesday pitch)* |
 | Change log | [`09_change_log.md`](./09_change_log.md) *(Wednesday)* |
 
 ---
 
-*SilverTrust Project 4 — Daria Bystrova & Julian Grandaos — Week 7*
+*SilverTrust Project 4 — Daria Bystrova & Julian Granados — Week 7*
