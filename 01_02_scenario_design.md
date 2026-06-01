@@ -1,5 +1,5 @@
 # SilverTrust — Project 4 | Monday Handoff
-## Scenario Design | Daria Bystrova & Julian Grandaos
+## Scenario Design | Daria Bystrova & Julian Granados
 
 ---
 
