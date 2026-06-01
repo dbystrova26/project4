@@ -404,7 +404,26 @@ If a regulator, a works council, or an auditor ever asks what happened with a sp
 
 We also watch for warning signs automatically. If the AI starts making more mistakes than usual — if humans are frequently overriding its outputs — we get an alert and we fix it before it becomes a problem for you. You will never be in a situation where the system has been quietly wrong for weeks without anyone noticing.
 
-✅ **LangSmith project:** `contractos-oracle-prod` — link and screenshots to be added to this repository
+✅ **LangSmith project:** `contractos-oracle-prod`
+🔗 **Live link:** https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
+📸 **Screenshots:** [`/langsmith/screenshots/`](./langsmith/screenshots/)
+
+### 6.4 LangSmith Screenshots
+
+**Screenshot 1 — Project overview: all 6 agent runs with latency and cost**
+![LangSmith project overview](./screenshot_01_overview.png)
+
+**Screenshot 2 — Contract Intelligence Agent: Jana Novak's contract extracted to JSON**
+![Contract Intelligence Agent trace](./screenshot_02_contract_intelligence.png)
+
+**Screenshot 3 — Compliance Flagging Agent: Arjun Sharma flagged RED**
+*"High misclassification risk due to fixed 40-hour work week, integration into daily standups, Oracle equipment" — jurisdiction: Netherlands / India — requires legal review: true*
+![Compliance Flagging Agent RED status](./screenshot_03_compliance_red.png)
+
+**Screenshot 4 — Overlap Detection Agent: Jana Novak 95/100 overlap score**
+*"The contractor and internal employee have nearly identical responsibilities in backend API development, database optimization, code review, and payment provider integration" — estimated duplicate cost: €8,500/month — recommended action: escalate immediately*
+![Overlap Detection Agent 95 overlap score](./screenshot_04_overlap_detection.png)
+
 
 ---
 

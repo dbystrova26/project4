@@ -91,7 +91,8 @@ An AI-powered contract and payroll intelligence layer with four capabilities del
 ## LangSmith Monitoring
 
 **Project name:** `contractos-oracle-prod`
-**Agents traced:** `contract-reader`, `cost-analyst`, `compliance-checker`
+🔗 **Live link:** https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
+**Agents traced:** `contract-intelligence-agent`, `invoice-validation-agent`, `overlap-detection-agent`, `compliance-flagging-agent`, `cost-categorisation-agent`
 
 **What we monitor:**
 - Extraction confidence score per field (alert if < 0.80 on critical fields)
@@ -102,9 +103,24 @@ An AI-powered contract and payroll intelligence layer with four capabilities del
 - PII redaction verification (weekly audit, zero tolerance)
 
 **Client reassurance:**
-> *"Every time the AI reads a contract, we log exactly what it extracted and how confident it was. If a human reviewer corrects an AI output, that correction is logged too. If a regulator or auditor asks what happened with a specific contractor's data, you can show them the complete chain in under five minutes."*
+> *"Every time the AI reads a contract, we log exactly what it extracted and how confident it was. If it flags a risk, a human reviews it before anything happens. You have a complete audit trail at all times."*
 
-> 📸 LangSmith screenshots — to be added after setup
+### Screenshots
+
+**Screenshot 1 — Project overview: all 6 agent runs**
+![LangSmith project overview showing all agent runs](./screenshot_01_overview.png)
+
+**Screenshot 2 — Contract Intelligence Agent: Jana Novak contract extracted**
+![Contract Intelligence Agent trace showing input contract and extracted JSON](./screenshot_02_contract_intelligence.png)
+
+**Screenshot 3 — Compliance Flagging Agent: Arjun Sharma RED flag**
+![Compliance Flagging Agent showing RED status and misclassification flags for Arjun Sharma](./screenshot_03_compliance_red.png)
+
+**Screenshot 4 — Overlap Detection Agent: 95/100 overlap score**
+![Overlap Detection Agent showing 95 overlap score between Jana Novak and internal engineer](./screenshot_04_overlap_detection.png)
+
+
+---
 
 ---
 
@@ -123,7 +139,7 @@ An AI-powered contract and payroll intelligence layer with four capabilities del
 - [x] Tuesday: solution design, compliance package, LangSmith monitoring documented
 - [ ] Tuesday: peer-approval record (after afternoon pitch)
 - [ ] Wednesday: revised proposal, final deck, change log, repository delivered
-- [ ] LangSmith project live — link added to this README
+- [x] LangSmith project live — link: https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
 - [ ] Repository accessible to instructors; all links working
 - [ ] All team members can explain the whole solution
 
