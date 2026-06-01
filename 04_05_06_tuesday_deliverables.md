@@ -416,7 +416,7 @@ All six runs completed successfully in project `contractos-oracle-prod` on the E
 ---
 
 **Screenshot 1 — Project overview: all 6 runs**
-![LangSmith project overview](./screenshot_01_overview.png)
+![LangSmith project overview](./langsmith/screenshots/screenshot_01_overview.png)
 
 **Observations:**
 - All 5 agents ran successfully (6 runs total — Agent 2 ran twice: one valid invoice, one mismatch)
@@ -428,7 +428,7 @@ All six runs completed successfully in project `contractos-oracle-prod` on the E
 ---
 
 **Screenshot 2 — Agent 1: Contract Intelligence Agent — Jana Novak**
-![Contract Intelligence Agent trace](./screenshot_02_contract_intelligence.png)
+![Contract Intelligence Agent trace](./langsmith/screenshots/screenshot_02_contract_intelligence.png)
 
 **Observations:**
 - Input: Jana Novak's freelance agreement (Czech Republic, EUR 600/day, 6 months renewable)
@@ -440,7 +440,7 @@ All six runs completed successfully in project `contractos-oracle-prod` on the E
 ---
 
 **Screenshot 3 — Agent 4: Compliance Flagging Agent — Arjun Sharma RED**
-![Compliance Flagging Agent RED status](./screenshot_03_compliance_red.png)
+![Compliance Flagging Agent RED status](./langsmith/screenshots/screenshot_03_compliance_red.png)
 
 **Observations:**
 - Input: Arjun Sharma's contract, jurisdiction Netherlands / India
@@ -458,7 +458,7 @@ All six runs completed successfully in project `contractos-oracle-prod` on the E
 ---
 
 **Screenshot 4 — Agent 3: Overlap Detection Agent — Jana Novak vs Internal Engineer**
-![Overlap Detection Agent 95 overlap score](./screenshot_04_overlap_detection.png)
+![Overlap Detection Agent 95 overlap score](./langsmith/screenshots/screenshot_04_overlap_detection.png)
 
 **Observations:**
 - Input: Jana's contractor scope vs Senior Backend Engineer internal role description
@@ -472,7 +472,7 @@ All six runs completed successfully in project `contractos-oracle-prod` on the E
 ---
 
 **Screenshot 5 — Agent 2: Invoice Validation Agent — Raj Consulting MISMATCH**
-![Invoice Validation Agent mismatch](./screenshot_05_invoice_mismatch.png)
+![Invoice Validation Agent mismatch](./langsmith/screenshots/screenshot_05_invoice_mismatch.png)
 
 **Observations:**
 - Input: Invoice #311 from Raj Consulting Ltd, Mumbai — 22 days QA testing, USD 9,900 — claiming "rate adjustment per verbal agreement"
@@ -486,7 +486,7 @@ All six runs completed successfully in project `contractos-oracle-prod` on the E
 ---
 
 **Screenshot 6 — Agent 5: Cost Categorisation Agent — TechStaff Philippines**
-![Cost Categorisation Agent](./screenshot_06_cost_categorisation.png)
+![Cost Categorisation Agent](./langsmith/screenshots/screenshot_06_cost_categorisation.png)
 
 **Observations:**
 - Input: PHP 480,000 monthly retainer to TechStaff Philippines Inc for 3 frontend developers
