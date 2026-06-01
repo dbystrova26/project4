@@ -8,46 +8,82 @@
 
 ### 4.1 What ContractOS Does
 
-ContractOS is a single AI-powered interface that reads every contractor and employee agreement at Oracle, extracts structured data, detects duplicate and overlapping payments, validates invoices against contract terms, and gives leadership a live view of where their money is going. It sits on top of Oracle's existing payment rails and does not replace them.
+ContractOS is a single AI-powered interface that reads every contractor and employee agreement at Oracle, extracts structured data, validates invoices, detects duplicate payments, checks compliance across five jurisdictions, and gives leadership a live view of where their money is going. It sits on top of Oracle's existing payment rails and does not replace them.
 
-| Capability | What the AI does | Pain point solved |
-|---|---|---|
-| **1. Contract Intelligence** | Reads all contracts across formats and languages. Extracts: person, role, rate, currency, contract type, jurisdiction, notice period, IP clauses, renewal date, GDPR clause presence. | Lost contractor visibility, no single contract view, compliance unknown |
-| **2. Overlap Detection** | Compares contractor scope descriptions against internal job roles using semantic similarity. Flags where same work is being paid twice inside and outside the company. | Paying twice for same work, internal vs external overlap |
-| **3. Cost Dashboard** | Categorises all workforce spend by country, contract type, team, and intermediary. Real-time burn visibility in one view for Thibaud and Eugen. | No cost visibility, burn exceeding revenue |
-| **4. Payment Tracking** | Validates incoming invoices against contract terms. Flags mismatches. Confirms payment sent and arrived. Works alongside existing rails such as Wise. | Wrong invoicing, multi-country payroll bottleneck |
+<!-- FIVE CAPABILITIES — each maps 1:1 to one of the five AI agents in sections 4.3 and 4.4.
+     This alignment is intentional: one capability = one agent = one clear responsibility.
+     Pain points come directly from the Monday discovery interview with Eugen and Thibaud. -->
+
+| Capability | Agent that powers it | What the AI does | Pain point solved |
+|---|---|---|---|
+| **1. Contract Intelligence** | Contract Intelligence Agent | Reads all contracts across formats and languages. Extracts: person, role, rate, currency, contract type, jurisdiction, notice period, IP clauses, renewal date, GDPR clause presence. | Lost contractor visibility, no single contract view |
+| **2. Invoice Validation** | Invoice Validation Agent | Validates every incoming invoice against the contract terms before payment is approved. Flags amount mismatches, currency errors, and scope discrepancies. | Wrong invoicing, payments not matching contracts |
+| **3. Overlap Detection** | Overlap Detection Agent | Compares contractor scope descriptions against internal job roles using semantic similarity. Flags where the same work is being paid twice inside and outside the company. | Paying twice for same work, internal vs external overlap |
+| **4. Compliance Flagging** | Compliance Flagging Agent | Checks each contract against jurisdiction-specific rule sets. Outputs Red / Amber / Green status with specific flags for misclassification risk, missing GDPR clauses, and ambiguous IP assignment. | Compliance unknown, misclassification risk across five countries |
+| **5. Cost Categorisation** | Cost Categorisation Agent | Categorises all workforce spend by country, contract type, team, and intermediary. Real-time burn visibility in one view for Thibaud and Eugen. | No cost visibility, burn exceeding revenue, intermediary opacity |
 
 ---
 
 ### 4.2 The Workflow
 
+<!-- WORKFLOW: Seven steps from document upload to payment confirmation.
+     Steps 2-4 are AI-powered. Step 5 is human-only — this is the EU AI Act compliance gate.
+     No AI output ever skips step 5 to reach step 6. -->
+
 | # | Step | What happens | AI or software |
 |---|---|---|---|
-| 1 | **Ingest** | User uploads contracts and invoices (PDF, Word, scan) via the dashboard. Files are stored in EU-based infrastructure. | Plain software |
-| 2 | **Extract** | Agent 1 (Contract Reader) reads each document and extracts structured fields into the Contract Register database. | AI — LLM |
-| 3 | **Analyse** | Agent 2 (Cost Analyst) aggregates extracted data, categorises spend, flags invoice mismatches and contractor overlap. | AI + software |
-| 4 | **Compliance check** | Agent 3 (Compliance Checker) checks each contract against jurisdiction rules. Outputs Red / Amber / Green per contract. | AI — LLM |
-| 5 | **Human review** | All flags go to a human approval queue. No AI output triggers automated action. Thibaud approves payment holds. Legal reviews reclassification flags. | **Human only** |
+| 1 | **Ingest** | User uploads contracts and invoices (PDF, Word, scan) via the dashboard. n8n also watches connected folders and email inboxes automatically. Files stored in EU infrastructure. | Plain software — n8n |
+| 2 | **Extract & validate** | Contract Intelligence Agent extracts structured fields. Invoice Validation Agent checks invoices against contract terms simultaneously. | AI — LLM |
+| 3 | **Detect overlap** | Overlap Detection Agent compares contractor scope against internal job roles. Flags duplicate spend. | AI — LLM |
+| 4 | **Compliance & cost** | Compliance Flagging Agent checks each contract against jurisdiction rules. Cost Categorisation Agent updates the burn dashboard. | AI — LLM + plain software |
+| 5 | **Human review** | All flags from all five agents go to a human approval queue. No AI output triggers automated action. Thibaud approves payment holds. Legal reviews compliance flags. HR reviews overlap flags. | **Human only** |
 | 6 | **Payment** | Approved payments routed via Wise API or local intermediary. Confirmation logged to audit trail. | Plain software |
-| 7 | **Monitor** | Every LLM call traced in LangSmith with inputs, outputs, confidence score, and latency logged. | LangSmith |
+| 7 | **Monitor** | Every LLM call across all five agents traced in LangSmith with inputs, outputs, confidence score, and latency logged. | LangSmith |
 
 ---
 
-### 4.3 Three AI Agents Under the Hood
+### 4.3 Five AI Agents Under the Hood
 
-> The four capabilities are client-facing. Under the hood they are delivered by three AI agents. This is important for the solution design and the EU AI Act classification.
+<!-- WHY FIVE AGENTS: Each agent is a specialist with a single responsibility.
+     This makes the system easier to monitor (you know exactly which agent produced which output),
+     easier to retrain (if Invoice Validation underperforms, only that agent is updated),
+     and easier to classify under the EU AI Act (each agent's risk level can be assessed independently).
+     All five are orchestrated by LangGraph — see section 4.4 for the full technical architecture. -->
 
-| Agent | Capabilities powered | Technical description |
+> The five capabilities above are client-facing. Under the hood each is delivered by a dedicated AI agent, all orchestrated by LangGraph. Every agent produces structured outputs and confidence scores — none executes final decisions.
+
+| Agent | Capability it powers | Technical description |
 |---|---|---|
-| **Agent 1 — Contract Reader** | Contract Intelligence | LLM ingests contract documents. Structured extraction prompt returns JSON: name, role, rate, currency, jurisdiction, notice period, IP clause status, GDPR clause status, working arrangement description. Output stored in Contract Register DB. |
-| **Agent 2 — Cost Analyst** | Overlap Detection, Cost Dashboard, Payment Tracking | LLM compares contractor working arrangement descriptions against internal job role descriptions using semantic similarity. Plain software handles cost aggregation and dashboard generation. LLM also normalises ambiguous invoice line items. |
-| **Agent 3 — Compliance Checker** | Embedded across all four capabilities | LLM checks extracted contract data against jurisdiction-specific rule sets for: GDPR clause presence, IP assignment clarity, misclassification indicators (NL DBA, German rules, French rules), notice period compliance. Outputs status + specific flags per contract. |
+| **Agent 1 — Contract Intelligence Agent** | Contract Intelligence | LLM ingests contract documents. Structured extraction prompt returns JSON: name, role, rate, currency, jurisdiction, notice period, IP clause status, GDPR clause status, working arrangement description. Output stored in Contract Register DB. |
+| **Agent 2 — Invoice Validation Agent** | Invoice Validation | LLM reads incoming invoice text and compares it against extracted contract terms. Flags discrepancies in amount, currency, scope, and billing period. Output: validated / flagged + specific mismatch detail. |
+| **Agent 3 — Overlap Detection Agent** | Overlap Detection | LLM compares contractor working arrangement descriptions against internal job role descriptions using semantic similarity. Flags pairs where scope overlap exceeds threshold. Output: overlap alert with contractor name, internal role, estimated duplicate cost. |
+| **Agent 4 — Compliance Flagging Agent** | Compliance Flagging | LLM checks extracted contract data against jurisdiction-specific rule sets: GDPR clause presence, IP assignment clarity, misclassification indicators (NL DBA, German Scheinselbstständigkeit, French rules), notice period minimums. Output: Red / Amber / Green status + specific flags per contract. |
+| **Agent 5 — Cost Categorisation Agent** | Cost Categorisation | LLM normalises ambiguous spend descriptions and categorises all payments by country, contract type, team, and intermediary. Plain software aggregates and renders the dashboard. Output: categorised cost register + burn trend. |
+
+<!-- CRITICAL NOTE: "none executes final decisions" is not just good practice — it is what keeps
+     ContractOS at limited/minimal risk under the EU AI Act. If any agent triggered a payment,
+     reclassification, or termination automatically, the system would become high-risk under
+     Annex III point 4 and require a full conformity assessment. The human review layer in
+     section 4.4 technically enforces this. -->
 
 ---
 
 ### 4.4 Technical Infrastructure Architecture
 
+<!-- WHAT THIS SECTION IS: The technical "how it's built" explanation. It matters for two reasons:
+     1. EU AI Act classification depends on proving human oversight is technically enforced, not just promised
+     2. GDPR compliance depends on proving all data stays on EU infrastructure
+     Read top to bottom: data comes in → n8n routes it → LangChain reads it →
+     LangGraph sends it to the right agent → agents produce findings →
+     humans review → actions taken + LangSmith logs everything -->
+
 ContractOS is built as an EU-hosted, privacy-first AI intelligence layer using **n8n**, **LangChain**, **LangGraph**, and **LangSmith**.
+
+<!-- TECH STACK TABLE: Four tools, each with a distinct role. Think of them as layers:
+     - n8n = the front door (receives and routes all incoming documents)
+     - LangChain = the filing clerk (reads, extracts, and prepares content for agents)
+     - LangGraph = the manager (coordinates which agent does what and tracks state)
+     - LangSmith = the auditor (records every AI action for monitoring and compliance) -->
 
 | Layer | Technology | Role |
 |---|---|---|
@@ -55,21 +91,22 @@ ContractOS is built as an EU-hosted, privacy-first AI intelligence layer using *
 | **Document processing** | LangChain | Document loading, text extraction, chunking, retrieval, and structured information extraction from contracts, invoices, role descriptions, and payment records |
 | **Agent orchestration** | LangGraph | Coordinates the five AI agents, manages state, routes structured outputs to human review |
 | **Observability** | LangSmith | Monitors AI workflows, stores traces, supports evaluation, provides audit trail for errors, model behaviour, prompt versions, and decision paths |
-| **Hosting** | EU-controlled environment | Role-based access, encrypted storage, minimal data retention, audit logs, human approval gates |
-
-#### Five AI Agents (LangGraph orchestrated)
-
-| Agent | What it does |
-|---|---|
-| **Contract Intelligence Agent** | Extracts structured data from contracts across formats and languages |
-| **Invoice Validation Agent** | Validates invoices against contract terms, flags mismatches before payment |
-| **Overlap Detection Agent** | Detects where contractor scope duplicates internal employee roles |
-| **Compliance Flagging Agent** | Checks contracts against jurisdiction-specific rule sets, outputs Red / Amber / Green |
-| **Cost Categorisation Agent** | Categorises spend by country, type, team, and intermediary |
-
-> Each agent produces structured outputs, confidence scores, and explanations — but does not execute final decisions.
+| **Hosting** | EU-controlled environment | Role-based access, encrypted storage, minimal data retention, audit logs, human approval gates before any financial or employment action |
 
 #### Architecture Diagram
+
+<!-- HOW TO READ THIS DIAGRAM (top to bottom):
+     1. TOP: All the messy data sources Oracle has today
+     2. n8n: Receives and normalises everything
+     3. LangChain: Loads, extracts, chunks, retrieves context
+     4. LangGraph: Routes content to the correct agent
+     5. FIVE AGENTS: Each runs, produces structured findings
+     6. STRUCTURED FINDINGS flow to THREE places simultaneously:
+        → Human Review Layer (left) — no action without a named human approving
+        → LangSmith (right) — every step logged for audit and monitoring
+        → CEO/CFO Dashboards (bottom) — aggregated view for leadership
+     KEY POINT FOR ASSESSORS: there is NO direct line from agents to actions.
+     Everything passes through the human review layer first. -->
 
 ```mermaid
 flowchart TD
@@ -133,6 +170,14 @@ flowchart TD
 ```
 
 #### Human Review Layer — Non-Negotiable
+
+<!-- WHY THIS TABLE EXISTS: This is the EU AI Act compliance proof.
+     ContractOS stays at limited/minimal risk (not high-risk) because no AI output
+     triggers an automatic employment or financial decision.
+     This table names exactly who reviews what — so if a regulator asks "who approved this?"
+     there is always a named human role with documented responsibility.
+     If Oracle ever removes this step, the system becomes high-risk under Annex III point 4
+     and requires a full conformity assessment before it can legally operate. -->
 
 All agent outputs route to a human approval queue before any action is taken.
 
@@ -215,9 +260,60 @@ All agent outputs route to a human approval queue before any action is taken.
 |---|---|---|---|
 | Processing employment contracts containing names, rates, bank details | Contract performance | Art. 6(1)(b) | Processing is necessary to manage the employment/contractor relationship. No separate consent needed. |
 | Processing payroll records and invoices | Legal obligation | Art. 6(1)(c) | Tax law, labour law, and accounting obligations in each jurisdiction require retention of payroll records. |
-| Sending contracts to LLM for extraction | Legitimate interest | Art. 6(1)(f) | **REQUIRES a Legitimate Interest Assessment (LIA).** Interest: cost control and compliance. Must be balanced against worker privacy. LIA must be documented before go-live. |
+| Sending contracts to LLM for extraction | **Legitimate interest** | Art. 6(1)(f) | Oracle's interest in cost control and compliance. LIA required before go-live — see section 5.2a below. |
+| Overlap detection — comparing contractor and employee role descriptions | **Legitimate interest** | Art. 6(1)(f) | Oracle's interest in preventing duplicate spend. LIA required — see section 5.2a below. |
 | Compliance checking — checking worker classification | Legal obligation | Art. 6(1)(c) | Employer has legal obligation to correctly classify workers. Compliance checking serves this obligation. |
-| LangSmith monitoring traces | Legitimate interest | Art. 6(1)(f) | Operational monitoring of AI system. PII must be redacted from traces. 90-day retention maximum. |
+| LangSmith monitoring traces | **Legitimate interest** | Art. 6(1)(f) | Operational monitoring of AI system. PII redacted before logging. 90-day retention maximum. LIA required — see section 5.2a below. |
+
+---
+
+### 5.2a Legitimate Interest Assessment (LIA)
+
+> Under GDPR Art. 6(1)(f), legitimate interest as a lawful basis requires passing a three-step test: (1) the interest must be legitimate, (2) the processing must be necessary to achieve it, and (3) the interest must not be overridden by the data subject's rights and freedoms. This section documents that test for the three uses of LI above.
+
+#### LIA 1 — Sending contracts to LLM for extraction
+
+| Step | Assessment |
+|---|---|
+| **1. Legitimate interest** | Oracle has a genuine commercial and legal interest in understanding the terms of its own workforce contracts — to control costs, prevent overpayment, and meet employer obligations. This is a recognised business interest. |
+| **2. Necessity** | Manual review of 900+ contracts across five languages and jurisdictions is not feasible within Oracle's current capacity. LLM extraction is the only proportionate method to achieve visibility at scale. A less privacy-invasive alternative (manual review) exists in principle but is not operationally realistic. |
+| **3. Balancing test** | Workers have a privacy interest in their contract terms, but this data is already held by Oracle under a legitimate contractual relationship. The LLM extracts only structured fields (rate, jurisdiction, notice period) — not free text. No content is shared with third parties beyond the LLM provider under DPA. Impact on workers is low. Oracle's interest prevails. |
+| **Safeguards** | DPA with LLM provider required. EU-based processing only. Extracted fields only — no free-text storage. Workers informed via transparency notice before go-live. |
+| **Conclusion** | **LI basis is defensible** — provided safeguards are in place before go-live. |
+
+#### LIA 2 — Overlap detection (comparing contractor and employee role descriptions)
+
+| Step | Assessment |
+|---|---|
+| **1. Legitimate interest** | Oracle has a genuine financial interest in identifying where it is paying twice for the same work. Preventing wasteful spend and ensuring efficient use of company resources is a recognised legitimate interest. |
+| **2. Necessity** | Overlap cannot be detected without comparing contractor scope descriptions against internal job roles. This requires processing personal employment data. No less intrusive method achieves the same result. |
+| **3. Balancing test** | Workers may not expect their role descriptions to be compared against contractors' scope, but the processing does not reveal sensitive personal information — it compares job function descriptions, not health, beliefs, or private life data. The output is a business flag reviewed by a human, not a decision taken against the individual. Impact on workers is low to medium. Oracle's financial interest prevails, provided the output triggers human review only. |
+| **Safeguards** | Human review mandatory before any action. Overlap flag does not name the worker to external parties. Transparency notice required. Results retained only as long as operationally necessary. |
+| **Conclusion** | **LI basis is defensible** — provided human review is maintained and workers are informed. |
+
+#### LIA 3 — LangSmith monitoring traces
+
+| Step | Assessment |
+|---|---|
+| **1. Legitimate interest** | SilverTrust (as provider) and Oracle (as deployer) have a legitimate interest in monitoring the AI system's behaviour for accuracy, safety, and auditability — including demonstrating compliance with the EU AI Act. |
+| **2. Necessity** | Monitoring requires logging inputs and outputs of LLM calls. Some inputs may contain personal data fragments from contracts despite extraction being the intended use. Logging cannot achieve its safety purpose without capturing what the model processed. |
+| **3. Balancing test** | Workers have no reasonable expectation that operational AI logs would not exist. The impact is minimal because: PII is redacted before storage, traces are retained for only 90 days, access is restricted to SilverTrust engineers and Oracle's compliance team, and traces are never used for purposes beyond system monitoring. |
+| **Safeguards** | PII redaction configured as a technical control, not a policy promise. 90-day auto-deletion. Access controls enforced. Traces never used for HR decisions. |
+| **Conclusion** | **LI basis is defensible** — redaction and retention controls are non-negotiable preconditions. |
+
+---
+
+### 5.2b What Oracle Must Do Before Go-Live
+
+> These are not optional — they are the conditions that make the LI basis legally defensible.
+
+- [ ] Complete and document all three LIAs above in writing
+- [ ] Sign a Data Processing Agreement (DPA) with the LLM provider (Anthropic / OpenAI / equivalent)
+- [ ] Confirm LLM provider processes data in EU region only — or execute Standard Contractual Clauses (SCCs)
+- [ ] Publish a transparency notice to all workers before ContractOS processes their contract data
+- [ ] Configure PII redaction in LangSmith before first production trace is created
+- [ ] Set 90-day auto-deletion on LangSmith traces
+- [ ] Consult German works council before go-live (BetrVG — separate obligation, see section 5.4)
 
 ---
 
@@ -245,7 +341,7 @@ All agent outputs route to a human approval queue before any action is taken.
 
 | Law | How it applies | Our response |
 |---|---|---|
-| **NL DBA Act (2025)** | Requires genuine independence for contractors. Platform flags contractors whose working arrangement description looks like employment. | Agent 3 flags. Human + legal review required before any action. |
+| **NL DBA Act (2025)** | Requires genuine independence for contractors. Platform flags contractors whose working arrangement description looks like employment. | Agent 4 flags. Human + legal review required before any action. |
 | **German BetrVG** | Works council must be consulted before deploying AI systems that process employee data. Applies to Oracle's German staff. | Oracle must consult works council before go-live. SilverTrust provides technical documentation to support this. |
 | **India DPDP Act 2023** | India's data protection law applies to processing of Indian workers' personal data. | Data stays EU-side. Indian contractor data processed under contract performance basis. Local counsel review recommended. |
 | **Philippines DPA 2012** | Similar to GDPR. Requires lawful basis for processing. NPC registration may be needed. | Lawful basis documented. Oracle to obtain local counsel advice on NPC registration. |
