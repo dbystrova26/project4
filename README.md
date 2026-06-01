@@ -1,7 +1,7 @@
 # SilverTrust — Project 4
 ## AI Consulting Engagement: Oracle Game Studio
 
-**Team:** Daria Bystrova & Julian Granados
+**Team:** Daria Bystrova & Julian Grandaos
 **Industry:** Financial Services (Payroll & Contract Intelligence)
 **Client:** Oracle Game Studio (Tech industry — assigned by paired team)
 **Date:** Week 7
@@ -107,31 +107,32 @@ An AI-powered contract and payroll intelligence layer with five capabilities del
 
 ### Screenshots
 
-**Screenshot 1 — Project overview: all 6 agent runs**
-![LangSmith project overview showing all agent runs](./screenshot_01_overview.png)
+| # | File | Agent | Key finding |
+|---|---|---|---|
+| 1 | `screenshot_01_overview.png` | All agents | 6 runs, all 5 agents traced, latency and cost visible |
+| 2 | `screenshot_02_contract_intelligence.png` | Agent 1 | Jana Novak extracted — GDPR clause absent flagged |
+| 3 | `screenshot_03_compliance_red.png` | Agent 4 | Arjun Sharma RED — misclassification risk, NL/India |
+| 4 | `screenshot_04_overlap_detection.png` | Agent 3 | Jana vs internal engineer — 95/100, €8,500/month duplicate |
+| 5 | `screenshot_05_invoice_mismatch.png` | Agent 2 | Raj Consulting — USD 1,100 overbilled, verbal agreement claimed |
+| 6 | `screenshot_06_cost_categorisation.png` | Agent 5 | TechStaff Philippines — EUR 8,200/month via intermediary |
 
-**Screenshot 2 — Contract Intelligence Agent: Jana Novak contract extracted**
-![Contract Intelligence Agent trace showing input contract and extracted JSON](./screenshot_02_contract_intelligence.png)
+**Screenshot 1 — Project overview**
+![LangSmith project overview](./screenshot_01_overview.png)
 
-**Screenshot 3 — Compliance Flagging Agent: Arjun Sharma RED flag**
-![Compliance Flagging Agent showing RED status and misclassification flags for Arjun Sharma](./screenshot_03_compliance_red.png)
+**Screenshot 2 — Contract Intelligence Agent**
+![Contract Intelligence trace](./screenshot_02_contract_intelligence.png)
 
-**Screenshot 4 — Overlap Detection Agent: 95/100 overlap score**
-![Overlap Detection Agent showing 95 overlap score between Jana Novak and internal engineer](./screenshot_04_overlap_detection.png)
+**Screenshot 3 — Compliance Flagging Agent: RED**
+![Compliance RED flag](./screenshot_03_compliance_red.png)
 
+**Screenshot 4 — Overlap Detection Agent: 95/100**
+![Overlap detection](./screenshot_04_overlap_detection.png)
 
----
+**Screenshot 5 — Invoice Validation Agent: mismatch flagged**
+![Invoice mismatch](./screenshot_05_invoice_mismatch.png)
 
----
-
-## Scenario Designed for Paired Team
-
-**Company:** PulseWork — Munich-based AI workforce analytics scaleup (~150 staff)
-**Industry:** Tech
-**Core problem:** AI productivity scoring used in firing decisions, no GDPR lawful basis, Dutch works council legal challenge hidden from investors
-**Full scenario:** [`01_scenario_design.docx`](./01_scenario_design.docx)
-
----
+**Screenshot 6 — Cost Categorisation Agent**
+![Cost categorisation](./screenshot_06_cost_categorisation.png)
 
 ## Submission Checklist
 

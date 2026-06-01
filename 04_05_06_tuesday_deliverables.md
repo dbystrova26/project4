@@ -408,23 +408,107 @@ We also watch for warning signs automatically. If the AI starts making more mist
 🔗 **Live link:** https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
 📸 **Screenshots:** [`/langsmith/screenshots/`](./langsmith/screenshots/)
 
-### 6.4 LangSmith Screenshots
 
-**Screenshot 1 — Project overview: all 6 agent runs with latency and cost**
+### 6.4 LangSmith Screenshots & Agent Execution Observations
+
+All six runs completed successfully in project `contractos-oracle-prod` on the EU endpoint (`eu.api.smith.langchain.com`). Below are the screenshots and observations from each agent execution.
+
+---
+
+**Screenshot 1 — Project overview: all 6 runs**
 ![LangSmith project overview](./screenshot_01_overview.png)
 
-**Screenshot 2 — Contract Intelligence Agent: Jana Novak's contract extracted to JSON**
+**Observations:**
+- All 5 agents ran successfully (6 runs total — Agent 2 ran twice: one valid invoice, one mismatch)
+- `compliance-flagging-agent` had the highest latency at **10.02s** — expected given the complexity of multi-jurisdiction legal analysis
+- `cost-categorisation-agent` was fastest at **2.44s** — simpler categorisation task
+- All runs show green status except one earlier `contract-intelligence-agent` run that failed with model-not-found (wrong model name — fixed before final run)
+- Cost per run ranged from **$0.0023 to $0.0068** — well within acceptable operational cost
+
+---
+
+**Screenshot 2 — Agent 1: Contract Intelligence Agent — Jana Novak**
 ![Contract Intelligence Agent trace](./screenshot_02_contract_intelligence.png)
 
-**Screenshot 3 — Compliance Flagging Agent: Arjun Sharma flagged RED**
-*"High misclassification risk due to fixed 40-hour work week, integration into daily standups, Oracle equipment" — jurisdiction: Netherlands / India — requires legal review: true*
+**Observations:**
+- Input: Jana Novak's freelance agreement (Czech Republic, EUR 600/day, 6 months renewable)
+- Output extracted correctly: name, role, rate, currency, jurisdiction, notice period 14 days, IP clause present, GDPR clause **absent** — correctly flagged
+- Working arrangement description captured: *"Freelance backend engineer working exclusively for Oracle following internal development processes with Oracle-provided equipment"* — this description fed directly into Agent 3 for overlap detection
+- Latency: **3.70s** — reasonable for unstructured contract reading
+- Token count: **416** — efficient prompt
+
+---
+
+**Screenshot 3 — Agent 4: Compliance Flagging Agent — Arjun Sharma RED**
 ![Compliance Flagging Agent RED status](./screenshot_03_compliance_red.png)
 
-**Screenshot 4 — Overlap Detection Agent: Jana Novak 95/100 overlap score**
-*"The contractor and internal employee have nearly identical responsibilities in backend API development, database optimization, code review, and payment provider integration" — estimated duplicate cost: €8,500/month — recommended action: escalate immediately*
+**Observations:**
+- Input: Arjun Sharma's contract, jurisdiction Netherlands / India
+- Output: **status: RED** — highest risk classification
+- Flags identified by the agent:
+  - Fixed 40-hour work week → employment indicator under NL DBA Act
+  - Integration into daily standups and Oracle Slack → organisational integration = employment indicator
+  - Oracle-provided equipment and infrastructure → removes genuine contractor independence
+  - Missing GDPR data processing clause
+  - Missing IP assignment clause
+- `requires_legal_review: true` — correctly routed to human queue
+- Latency: **10.02s** — longest run, reflecting multi-jurisdiction compliance reasoning
+- Token count: **735** — highest token use, as expected for complex legal analysis
+
+---
+
+**Screenshot 4 — Agent 3: Overlap Detection Agent — Jana Novak vs Internal Engineer**
 ![Overlap Detection Agent 95 overlap score](./screenshot_04_overlap_detection.png)
+
+**Observations:**
+- Input: Jana's contractor scope vs Senior Backend Engineer internal role description
+- Output: `overlap_detected: true`, `overlap_score: 95/100`
+- Agent reasoning: *"The contractor and internal employee have nearly identical responsibilities in backend API development, database optimization, code review, and payment provider integration for the same payment systems domain"*
+- `estimated_monthly_duplicate_cost_eur: 8500`
+- `recommended_action: escalate immediately`
+- `confidence: 98` — very high confidence, strong semantic overlap
+- Latency: **2.85s** — fast semantic comparison
+
+---
+
+**Screenshot 5 — Agent 2: Invoice Validation Agent — Raj Consulting MISMATCH**
+![Invoice Validation Agent mismatch](./screenshot_05_invoice_mismatch.png)
+
+**Observations:**
+- Input: Invoice #311 from Raj Consulting Ltd, Mumbai — 22 days QA testing, USD 9,900 — claiming "rate adjustment per verbal agreement"
+- Contract rate: USD 400/day
+- Output: `status: flagged`, `mismatch_detected: true`
+- Agent reasoning: Invoice amount USD 9,900 exceeds expected USD 8,800 (22 days × $400). Vendor claims verbal rate adjustment — not documented in contract
+- `recommended_action: hold for review`
+- `confidence: 95` — correctly uncertain due to claimed verbal agreement
+- This is exactly the type of error Oracle is currently paying through without detection
+
+---
+
+**Screenshot 6 — Agent 5: Cost Categorisation Agent — TechStaff Philippines**
+![Cost Categorisation Agent](./screenshot_06_cost_categorisation.png)
+
+**Observations:**
+- Input: PHP 480,000 monthly retainer to TechStaff Philippines Inc for 3 frontend developers
+- Output: `country: Philippines`, `contract_type: intermediary`, `team: frontend`, `via_intermediary: true`, `intermediary_name: TechStaff Philippines Inc`, `amount_eur: 8200`, `currency_original: PHP`, `category: engineering`
+- `confidence: 95` — correctly identified intermediary structure and converted currency
+- This is exactly the type of payment Oracle has lost track of — an intermediary routing payment to multiple developers with no individual contract visibility
+- Latency: **2.44s** — fastest agent
+
+---
+
+### Summary of Agent Execution Results
+
+| Agent | Run result | Key finding | Action required |
+|---|---|---|---|
+| Contract Intelligence | ✅ Clean | Jana Novak: GDPR clause absent, IP clause present | Flag GDPR gap |
+| Invoice Validation (Jana) | ✅ Valid | EUR 12,600 for 18 days at EUR 600/day — technically valid | Approve |
+| Invoice Validation (Raj) | ⚠️ Flagged | USD 9,900 vs expected USD 8,800 — verbal rate claim undocumented | Hold for review |
+| Overlap Detection | 🔴 Escalate | Jana vs internal engineer — 95/100 overlap, €8,500/month duplicate | Escalate immediately |
+| Compliance Flagging | 🔴 Red | Arjun Sharma — misclassification risk, missing GDPR + IP clauses | Legal review required |
+| Cost Categorisation | ✅ Categorised | TechStaff Philippines — intermediary, EUR 8,200/month, engineering | Dashboard updated |
 
 
 ---
 
-*Daria Bystrova & Julian Grandaos — SilverTrust Project 4 — Tuesday Deliverables 4, 5, 6*
+*Daria Bystrova & Julian Granados — SilverTrust Project 4 — Tuesday Deliverables 4, 5, 6*
