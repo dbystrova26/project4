@@ -1,7 +1,7 @@
 # SilverTrust — Project 4
 ## AI Consulting Engagement: Oracle Game Studio
 
-**Team:** Daria Bystrova & Julian Granados
+**Team:** Daria Bystrova & Julian Grandaos
 **Industry:** Financial Services (Payroll & Contract Intelligence)
 **Client:** Oracle Game Studio (Tech industry — assigned by paired team)
 **Date:** Week 7
@@ -61,15 +61,15 @@ Oracle is a funded indie game studio with 800–900 people across five countries
 
 ## The Solution — ContractOS
 
-An AI-powered contract and payroll intelligence layer with four capabilities delivered by three AI agents:
+An AI-powered contract and payroll intelligence layer with five capabilities delivered by five dedicated AI agents, orchestrated by LangGraph:
 
 | Capability | AI Agent | What it does | Pain point solved |
 |---|---|---|---|
-| Contract Intelligence | Agent 1 — Contract Reader | Reads all contracts, extracts key terms, flags misclassification and IP risk | Lost contractor visibility, compliance unknown |
-| Overlap Detection | Agent 2 — Cost Analyst | Compares contractor scope against internal roles — flags duplicate payments | Paying twice for same work |
-| Cost Dashboard | Agent 2 — Cost Analyst | Categorises spend by country, type, team, intermediary — live burn view | No cost visibility |
-| Payment Tracking | Agent 2 — Cost Analyst | Validates invoices against contracts, tracks payment status | Wrong invoicing, payroll bottlenecks |
-| Compliance Checking | Agent 3 — Compliance Checker | Red/Amber/Green status per contract across five jurisdictions | Compliance unknown, misclassification risk |
+| Contract Intelligence | Agent 1 — Contract Intelligence Agent | Reads all contracts across formats and languages, extracts key terms, flags IP risk | Lost contractor visibility, no single contract view |
+| Invoice Validation | Agent 2 — Invoice Validation Agent | Validates every invoice against contract terms before payment — flags mismatches | Wrong invoicing, payments not matching contracts |
+| Overlap Detection | Agent 3 — Overlap Detection Agent | Compares contractor scope against internal roles using semantic similarity — flags duplicate spend | Paying twice for same work |
+| Compliance Flagging | Agent 4 — Compliance Flagging Agent | Red/Amber/Green status per contract across five jurisdictions — misclassification, GDPR, IP | Compliance unknown, misclassification risk |
+| Cost Categorisation | Agent 5 — Cost Categorisation Agent | Categorises all spend by country, contract type, team, intermediary — live burn view | No cost visibility, burn exceeding revenue |
 
 > ⚠️ **Critical design constraint:** The AI flags and surfaces — a human approves before any payment is sent or any contractor is reclassified.
 
