@@ -10,7 +10,7 @@
 
 ## The Engagement in One Sentence
 
-Oracle is a funded indie game studio with 800–900 people across five countries, burning cash faster than it earns — we designed ContractOS, an AI-powered contract and payroll intelligence layer that reads every contract, detects duplicate payments, validates invoices, and gives leadership a live view of where their money is going.
+Oracle is a funded game studio with 800–900 people across five countries, burning cash faster than it earns — we designed ContractOS, an AI-powered contract and payroll intelligence layer that reads every contract, detects duplicate payments, validates invoices, and gives leadership a live view of where their money is going.
 
 ---
 
