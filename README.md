@@ -10,7 +10,7 @@
 
 ## The Engagement in One Sentence
 
-Oracle is a funded game studio with 800–900 people across five countries, burning cash faster than it earns — we designed ContractOS, an AI-powered contract and payroll intelligence layer that reads every contract, detects duplicate payments, validates invoices, and gives leadership a live view of where their money is going.
+Oracle is a funded indie game studio with 800–900 people across five countries, burning cash faster than it earns — we designed ContractOS, an AI-powered contract and payroll intelligence layer that reads every contract, detects duplicate payments, validates invoices, and gives leadership a live view of where their money is going.
 
 ---
 
@@ -20,7 +20,7 @@ Oracle is a funded game studio with 800–900 people across five countries, burn
 
 | # | Deliverable | File | Status |
 |---|---|---|---|
-| 1 | Industry + rationale + scenario designed for paired team (PulseWork) | [`01_02_scenario_design.md`](./01_02_scenario_design.md) | ✅ |
+| 1+2 | Industry + rationale + scenario designed for paired team (PulseWork) | [`01_02_scenario_design.md`](./01_02_scenario_design.md) | ✅ |
 | 3 | Discovery findings — interview notes, indirect questions, pain-point table, problem statement, solution concept | [`03_discovery_findings.md`](./03_discovery_findings.md) | ✅ |
 
 ### Day 2 — Compliant Design, Monitoring & Peer Approval
@@ -28,14 +28,14 @@ Oracle is a funded game studio with 800–900 people across five countries, burn
 | # | Deliverable | File | Status |
 |---|---|---|---|
 | 4+5+6 | Solution design + compliance package + LangSmith monitoring | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) | ✅ |
-| 7 | Peer approval record — pitch, review board decision, change requests | [`07_peer_approval_record.md`](./07_peer_approval_record.md) | ⬜ |
+| 7 | Peer approval record — pitch, review board decision, change requests | [`07_peer_approval_record.md`](./07_peer_approval_record.md) | ✅ |
 
 ### Day 3 — Revised Proposal & Final Delivery
 
 | # | Deliverable | File | Status |
 |---|---|---|---|
-| 8 | Revised solution & final proposal | [`08_revised_proposal.md`](./08_revised_proposal.md) | ⬜ |
-| 9 | Change log — request → action → why | [`09_change_log.md`](./09_change_log.md) | ⬜ |
+| 8 | Revised solution & final proposal | [`08_revised_proposal.md`](./08_revised_proposal.md) | ✅ |
+| 9 | Change log — request → action → why | [`09_change_log.md`](./09_change_log.md) | ✅ |
 
 ---
 
@@ -71,6 +71,22 @@ An AI-powered contract and payroll intelligence layer with five capabilities del
 
 > ⚠️ **Critical design constraint:** The AI flags and surfaces — a human approves before any payment is sent or any contractor is reclassified.
 
+### v1.1 Enhancements (post client feedback)
+
+Seven change requests from the review board were addressed in ContractOS v1.1:
+
+| CR | Enhancement | Phase |
+|---|---|---|
+| CR-01 | EOR coverage — Agent 4 flags countries where Oracle has no legal entity | Phase 1 |
+| CR-02 | Social registration automation per country | Phase 2 |
+| CR-03 | Contract generation workflow up to human signature | Phase 2 |
+| CR-04 | PO matching added to Agent 2 (three-way invoice match) | Phase 1 |
+| CR-05 | Local accounting rules added to Agent 2 | Phase 1 |
+| CR-06 | Intermediary cost tracking in Agent 2 + Agent 5 | Phase 1 |
+| CR-07 | Multilingual QA plan — 3 phases, 7 languages, acceptance criteria | Phase 1 |
+
+See [`08_revised_proposal.md`](./08_revised_proposal.md) and [`09_change_log.md`](./09_change_log.md) for full detail.
+
 ---
 
 ## Compliance Summary
@@ -79,7 +95,7 @@ An AI-powered contract and payroll intelligence layer with five capabilities del
 |---|---|---|
 | EU AI Act | Minimal risk (extraction, dashboard) / Limited risk (misclassification flagging) | Human-in-the-loop mandatory before any employment-affecting action |
 | GDPR — contracts | Lawful basis: contract performance (Art. 6(1)(b)) + legal obligation (Art. 6(1)(c)) | DPA + SCCs required for LLM provider; EU-based infrastructure only |
-| GDPR — LLM processing | Legitimate interest (Art. 6(1)(f)) | LIA must be documented before go-live |
+| GDPR — LLM processing | Legitimate interest (Art. 6(1)(f)) | LIA documented before go-live — 3 LIAs completed |
 | Third countries | India (DPDP Act), Philippines (DPA 2012), Russia (sanctions + data localisation) | Data stays EU-side; local counsel required per jurisdiction |
 | German BetrVG | Works council consultation required before go-live | SilverTrust provides technical documentation |
 | NL DBA Act (2025) | Contractor misclassification flags | Human + legal review before any reclassification |
@@ -138,11 +154,11 @@ An AI-powered contract and payroll intelligence layer with five capabilities del
 
 - [x] Monday: industry chosen; scenario designed and sent to teacher; discovery findings captured
 - [x] Tuesday: solution design, compliance package, LangSmith monitoring documented
-- [ ] Tuesday: peer-approval record (after afternoon pitch)
-- [ ] Wednesday: revised proposal, final deck, change log, repository delivered
+- [x] Tuesday: peer-approval record completed
+- [x] Wednesday: revised proposal, change log, final deck delivered
 - [x] LangSmith project live — link: https://eu.smith.langchain.com/o/453c43c0-ddb5-408a-a509-630402964189/projects/p/bff005c1-351b-4293-92ca-623f47b8ba5b
-- [ ] Repository accessible to instructors; all links working
-- [ ] All team members can explain the whole solution
+- [x] Repository accessible to instructors; all links working
+- [x] All team members can explain the whole solution
 
 ---
 
@@ -155,11 +171,15 @@ An AI-powered contract and payroll intelligence layer with five capabilities del
 | What ContractOS does and how it works | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Deliverable 4 |
 | EU AI Act classification and justification | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.1 |
 | GDPR data map and lawful basis | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.2 |
+| Legitimate Interest Assessments (3 LIAs) | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.2a |
 | Compliance memo (plain English) | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Section 5.5 |
 | LangSmith monitoring setup | [`04_05_06_tuesday_deliverables.md`](./04_05_06_tuesday_deliverables.md) — Deliverable 6 |
 | Scenario designed for paired team | [`01_02_scenario_design.md`](./01_02_scenario_design.md) |
-| Peer review record | [`07_peer_approval_record.md`](./07_peer_approval_record.md) *(after Tuesday pitch)* |
-| Change log | [`09_change_log.md`](./09_change_log.md) *(Wednesday)* |
+| Peer approval record | [`07_peer_approval_record.md`](./07_peer_approval_record.md) |
+| Revised proposal (v1.1) | [`08_revised_proposal.md`](./08_revised_proposal.md) |
+| Change log | [`09_change_log.md`](./09_change_log.md) |
+| LangSmith demo script | [`langsmith/langsmith_contractos_demo.py`](./langsmith/langsmith_contractos_demo.py) |
+| Spend visualiser (Agent 5) | [`langsmith/agent5_spend_visualiser.py`](./langsmith/agent5_spend_visualiser.py) |
 
 ---
 
